@@ -6,9 +6,11 @@ class AssignmentInvitationsController < ApplicationController
   def accept_invitation
     users_assignment_repo = invitation.redeem_for(current_user)
 
-    if users_assignment_repo.present?
+    if users_assignment_repo.present? && decorated_assignment_repo.github_url != "#"
       redirect_to successful_invitation_assignment_invitation_path
-    else
+    elsif users_assignment_repo.present? && decorated_assignment_repo.github_url == "#"
+      redirect_to unsuccessful_invitation_assignment_invitation_path
+    else 
       flash[:error] = 'An error has occured, please refresh the page and try again.'
       redirect_to :show
     end
@@ -18,6 +20,10 @@ class AssignmentInvitationsController < ApplicationController
   end
 
   def successful_invitation
+    not_found unless assignment_repo
+  end
+  
+  def unsuccessful_invitation
     not_found unless assignment_repo
   end
 
