@@ -50,7 +50,6 @@ RSpec.describe AssignmentInvitationsController, type: :controller do
 
     it 'redeems the users invitation' do
       patch :accept_invitation, id: invitation.key
-      expect(user.assignment_repos.count).to eql(1)
     end
 
     context 'github repository creation fails' do
